@@ -43,11 +43,12 @@ class DiscountCalculatorTest extends TestCase
     }
 
     // Vérifie le comportement à la limite (montant exactement égal à 100 €)
-    public function testEdgeCaseExactly100(): void
-    {
-        $discount = $this->discountCalculator->calculateDiscount(100.0, false);
-        $this->assertEquals(0.0, $discount); // Pas de remise à exactement 100 €
-    }
+public function testEdgeCaseExactly100()
+{
+    $calculator = new DiscountCalculator();
+    $result = $calculator->calculateDiscount(100.0, false); // Client non VIP
+    $this->assertEquals(0.0, $result); // Vérifiez que le résultat est bien 0.0
+}
 
     // Vérifie le comportement juste au-dessus de 100 €
     public function testEdgeCaseJustAbove100(): void

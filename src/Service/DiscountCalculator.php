@@ -4,19 +4,34 @@ namespace App\Service;
 
 class DiscountCalculator
 {
+    private const BASE_DISCOUNT_RATE = 0.10; // 10%
+    private const VIP_DISCOUNT_RATE = 0.05;   // 5%
+    private const MAX_DISCOUNT_RATE = 0.20;    // 20%
+    private const DISCOUNT_THRESHOLD = 100.0;   // 100 €
+
     public function calculateDiscount(float $totalAmount, bool $isVipCustomer): float
     {
-        // Remise de base de 10% si le montant est supérieur à 100 €
-        $discount = ($totalAmount >= 100) ? $totalAmount * 0.10 : 0;
-
-        // Remise supplémentaire de 5% pour les clients VIP
-        if ($isVipCustomer) {
-            $discount += $totalAmount * 0.05;
+        // Pas de remise si le montant est exactement 100 € pour un client non VIP
+        if ($totalAmount == self::DISCOUNT_THRESHOLD && !$isVipCustomer) {
+            return 0.0;
         }
 
-        // La remise totale ne peut pas dépasser 20% du montant total
-        $maxDiscount = $totalAmount * 0.20;
+        $discount = 0.0;
 
+        // Appliquer la remise de base si le montant est supérieur au seuil
+        if ($totalAmount > self::DISCOUNT_THRESHOLD) {
+            $discount += $totalAmount * self::BASE_DISCOUNT_RATE;
+        }
+
+        // Ajouter la remise VIP si applicable
+        if ($isVipCustomer) {
+            $discount += $totalAmount * self::VIP_DISCOUNT_RATE;
+        }
+
+        // Calculer la remise maximale autorisée
+        $maxDiscount = $totalAmount * self::MAX_DISCOUNT_RATE;
+
+        // Retourner la remise minimale entre la remise calculée et la remise maximale
         return min($discount, $maxDiscount);
     }
 }
