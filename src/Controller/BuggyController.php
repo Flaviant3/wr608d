@@ -8,16 +8,16 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class BuggyController extends AbstractController
 {
-   
-#[Route('/bug', name: 'buggy_route')]
-public function buggyAction(): Response
-{
-    $data = $this->getData();
-    $message = $data['nonexistent_key'] ?? 'Je ne bug plus !';
-    return $this->render('welcome.html.twig', [
-        'message' => $message,
-    ]);
-}
+    #[Route('/bug', name: 'buggy_route')]
+    public function buggyAction(): Response
+    {
+        $data = $this->getData();
+        $message = $data['nonexistent_key'] ?? 'Je ne bug plus !';
+
+        return $this->render('welcome.html.twig', [
+            'message' => $message,
+        ]);
+    }
 
     private function getData(): array
     {

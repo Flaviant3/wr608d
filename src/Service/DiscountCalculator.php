@@ -12,7 +12,7 @@ class DiscountCalculator
     public function calculateDiscount(float $totalAmount, bool $isVipCustomer): float
     {
         // Pas de remise si le montant est exactement 100 € pour un client non VIP
-        if ($totalAmount == self::DISCOUNT_THRESHOLD && !$isVipCustomer) {
+        if (self::DISCOUNT_THRESHOLD == $totalAmount && !$isVipCustomer) {
             return 0.0;
         }
 
